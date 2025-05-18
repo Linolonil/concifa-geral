@@ -1,0 +1,5 @@
+# Ignora tudo relacionado ao Cursor IDE
+.cursor/
+.cursorrules
+.cursorrules.md
+.cursor

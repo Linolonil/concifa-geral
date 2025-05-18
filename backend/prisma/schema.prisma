@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String    @id @default(uuid())
+  nome      String
+  email     String    @unique
+  senha     String
+  tipo      TipoUsuario
+  projetos  Projeto[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("usuarios")
+}
+
+model Projeto {
+  id          String        @id @default(uuid())
+  titulo      String
+  descricao   String        @db.Text
+  pdfPath     String
+  status      StatusProjeto
+  usuario     Usuario       @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioId   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("projetos")
+  @@index([usuarioId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum TipoUsuario {
+  ALUNO
+  COORDENADOR
+}
+
+enum StatusProjeto {
+  PENDENTE
+  APROVADO
+  REJEITADO
+} 

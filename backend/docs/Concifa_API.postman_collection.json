@@ -1,0 +1,311 @@
+{
+  "info": {
+    "name": "Concifa API",
+    "description": "API para gerenciamento de projetos acadêmicos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"aluno@email.com\",\n    \"senha\": \"senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Registro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Novo Aluno\",\n    \"email\": \"novo.aluno@email.com\",\n    \"senha\": \"senha123\",\n    \"tipo\": \"ALUNO\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/registro",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "registro"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Aluno",
+      "item": [
+        {
+          "name": "Criar Projeto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aluno_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "pdf",
+                  "type": "file",
+                  "src": "/caminho/para/seu/arquivo.pdf"
+                },
+                {
+                  "key": "titulo",
+                  "value": "Título do Projeto",
+                  "type": "text"
+                },
+                {
+                  "key": "descricao",
+                  "value": "Descrição detalhada do projeto",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/aluno/projetos",
+              "host": ["{{base_url}}"],
+              "path": ["aluno", "projetos"]
+            }
+          }
+        },
+        {
+          "name": "Listar Projetos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aluno_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aluno/projetos?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["aluno", "projetos"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar Projeto",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aluno_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aluno/projetos/:id",
+              "host": ["{{base_url}}"],
+              "path": ["aluno", "projetos", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Excluir Projeto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aluno_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aluno/projetos/:id",
+              "host": ["{{base_url}}"],
+              "path": ["aluno", "projetos", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coordenador",
+      "item": [
+        {
+          "name": "Listar Projetos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{coordenador_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/coordenador/projetos?page=1&limit=10&status=PENDENTE",
+              "host": ["{{base_url}}"],
+              "path": ["coordenador", "projetos"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDENTE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar Projeto",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{coordenador_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/coordenador/projetos/:id",
+              "host": ["{{base_url}}"],
+              "path": ["coordenador", "projetos", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{coordenador_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"APROVADO\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/coordenador/projetos/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["coordenador", "projetos", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Arquivos",
+      "item": [
+        {
+          "name": "Download Arquivo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/arquivos/:id/download",
+              "host": ["{{base_url}}"],
+              "path": ["arquivos", ":id", "download"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "aluno_token",
+      "value": "seu_token_jwt_aqui",
+      "type": "string"
+    },
+    {
+      "key": "coordenador_token",
+      "value": "seu_token_jwt_aqui",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "seu_token_jwt_aqui",
+      "type": "string"
+    }
+  ]
+} 
