@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter, Linkedin, Mail, MapPin, Phone } from "luc
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-6 static bottom-0 z-50">
+    <footer className="bg-gray-900 text-white pt-12 pb-6 static bottom-0 z-50 text-sm">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Sobre */}
@@ -68,19 +68,21 @@ export default function Footer() {
 
           {/* Contato */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Contato</h3>
+            <h3 className="text-xl font-bold mb-4" id="footer">Contato</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="mr-2 h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <a href="https://www.google.com.br/maps/place/Fametro+Unidade+I+e+II+-+Sede/data=!4m7!3m6!1s0x926c1aa9d7ff4d3f:0xf8581f6dfb21295c!8m2!3d-3.0969031!4d-60.0256756!16s%2Fg%2F11h8zw3dn4!19sChIJP03_16kabJIRXCkh-20fWPg?authuser=0&hl=pt-BR&rclk=1" target="_blank" rel="noopener noreferrer">
                 <span className="text-gray-300">
-                  Universidade Federal de Ciências Forenses
+                  Faculdade Metropolitana de Manaus
                   <br />
-                  Av. Principal, 1000 - São Paulo, SP
+                  Fametro Unidade I e II - Sede, Av. Constantino Nery, 3000 - Chapada, Manaus - AM, 69050-000
                 </span>
+                </a>
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-5 w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-300">(11) 3456-7890</span>
+                <span className="text-gray-300">(92) 2101-1000</span>
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-5 w-5 text-blue-400 flex-shrink-0" />
@@ -93,7 +95,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-400 mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} CONCIFA - Congresso Científico da FAMETRO. Todos os
+              &copy; {new Date().getFullYear()} CONCIFA - Congresso Científico FAMETRO. Todos os
               direitos reservados.
             </p>
             <div className="flex space-x-4">

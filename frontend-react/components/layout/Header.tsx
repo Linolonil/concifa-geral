@@ -101,7 +101,6 @@ export default function Header() {
   
   return (
     <>
-    <div></div>
       {/* Top bar */}
       <div className="bg-blue-600 text-white py-1 px-4 text-xs md:text-sm sticky top-0 z-50">
         <div className="container mx-auto flex justify-between z-50">

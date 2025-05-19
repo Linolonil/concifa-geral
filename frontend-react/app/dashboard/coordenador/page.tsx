@@ -613,6 +613,7 @@ export default function DashboardCoordenador() {
                               <Image
                                 src={palestrante.foto || "/placeholder.svg"}
                                 alt={palestrante.nome}
+                                fill
                                 className="object-cover w-full h-full"
                               />
                             </div>
