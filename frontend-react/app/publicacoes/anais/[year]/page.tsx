@@ -55,7 +55,7 @@ export default function AnaisDetalhes() {
           id: "anais-2024",
           ano: "2024",
           edicao: "VIII",
-          titulo: "Anais do VIII Congresso Nacional de Ciências Forenses e Afins",
+          titulo: "Anais do VIII Congresso Científico da FAMETRO",
           issn: "2966-425X",
           dataPublicacao: "2024-10-30",
           numTrabalhos: 156,
@@ -112,7 +112,7 @@ export default function AnaisDetalhes() {
           id: "anais-2023",
           ano: "2023",
           edicao: "VII",
-          titulo: "Anais do VII Congresso Nacional de Ciências Forenses e Afins",
+          titulo: "Anais do VII Congresso Científico da FAMETRO",
           issn: "2966-425X",
           dataPublicacao: "2023-10-30",
           numTrabalhos: 142,
@@ -286,7 +286,7 @@ export default function AnaisDetalhes() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-4">
-                  Os Anais do {anais.edicao} Congresso Nacional de Ciências Forenses e Afins (CONCIFA {anais.ano})
+                  Os Anais do {anais.edicao} Congresso Científico da FAMETRO (CONCIFA {anais.ano})
                   reúnem os trabalhos científicos apresentados durante o evento, realizado em{" "}
                   {anais.ano === "2024" ? "Rio de Janeiro" : "Belo Horizonte"} de{" "}
                   {anais.ano === "2024" ? "16 a 19" : "18 a 21"} de setembro de {anais.ano}.
@@ -406,7 +406,7 @@ export default function AnaisDetalhes() {
               <p className="text-gray-500 mb-4">Para citar esta publicação, utilize o seguinte formato:</p>
               <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700 mb-6">
                 <p>
-                  CONCIFA - Congresso Nacional de Ciências Forenses e Afins. <strong>{anais.titulo}</strong>.{" "}
+                  CONCIFA - Congresso Científico da FAMETRO. <strong>{anais.titulo}</strong>.{" "}
                   {anais.ano === "2024" ? "Rio de Janeiro" : "Belo Horizonte"}: CONCIFA, {anais.ano}. ISSN: {anais.issn}
                   .
                 </p>

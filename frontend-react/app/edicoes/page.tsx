@@ -245,7 +245,7 @@ export default function Edicoes() {
           >
             <h2 className="text-3xl font-bold mb-4 text-blue-900">Linha do Tempo CONCIFA</h2>
             <p className="text-gray-600">
-              A evolução do Congresso Nacional de Ciências Forenses e Afins ao longo dos anos
+              A evolução do Congresso Científico da FAMETRO ao longo dos anos
             </p>
           </motion.div>
 

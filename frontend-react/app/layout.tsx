@@ -13,8 +13,8 @@ const navItems = [
 ]
 
 export const metadata: Metadata = {
-  title: "CONCIFA - Congresso de Ciências Forenses",
-  description: "Congresso de Ciências Forenses",
+  title: "CONCIFA - Congresso Científico da FAMETRO",
+  description: "Congresso Científico da FAMETRO",
 }
 
 export default function RootLayout({

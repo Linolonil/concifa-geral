@@ -30,8 +30,8 @@ export function UserMenu() {
   if (!user) {
     return (
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => router.push("/login")}>
-          Entrar
+        <Button className="bg-blue-700 hover:bg-blue-800 hover:text-white text-white" variant="outline" size="sm" onClick={() => router.push("/login")}>
+          Login
         </Button>
         <Button variant="destructive" size="sm" onClick={() => router.push("/inscricao")}>
           Inscrever-se

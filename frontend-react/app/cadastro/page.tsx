@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { ChevronLeft } from "lucide-react"
 
 export default function Cadastro() {
   const [isFametro, setIsFametro] = useState(false)
@@ -16,10 +15,9 @@ export default function Cadastro() {
 
   return (
     <Layout>
-      <div className="relative min-full w-full flex flex-col overflow-hidden">
-    
-        {/* Background fixo, sempre visível, overlay sutil */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="relative min-h-screen w-full flex flex-col">
+        {/* Background com overlay para contraste */}
+        <div className="fixed inset-0 -z-10">
           <Image
             src="/inscricao-assets/gemini-generated-image-v-4-evugv-4-evugv-4-ev0.png"
             alt="Background"
@@ -27,15 +25,15 @@ export default function Cadastro() {
             style={{ objectFit: "cover" }}
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white/80 pointer-events-none overflow-hidden" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white/80" />
         </div>
 
         {/* Main */}
-        <main className="flex flex-col items-center justify-center flex-1 w-full py-8 relative overflow-hidden">
+        <main className="flex flex-col items-center justify-center flex-1 w-full py-8 relative">
           {/* Imagens decorativas */}
-          <Image src="/inscricao-assets/imagen100.png" alt="Imagem Lateral 3" width={47} height={200} className="hidden md:block absolute right-40 top-2 z-20" />
-          <Image src="/inscricao-assets/image1.png" alt="Imagem Lateral 1" width={150} height={200} className="hidden md:block absolute left-6 top-32 z-20" />
-          <Image src="/inscricao-assets/image2.png" alt="Imagem Lateral 2" width={115} height={200} className="hidden md:block absolute left-56 top-64 z-20" />
+          <Image src="/inscricao-assets/imagen100.png" alt="Imagem Lateral 3" width={47} height={200} className="hidden md:block absolute right-40 top-2 z-0" />
+          <Image src="/inscricao-assets/image1.png" alt="Imagem Lateral 1" width={150} height={200} className="hidden md:block absolute left-6 top-32 z-0" />
+          <Image src="/inscricao-assets/image2.png" alt="Imagem Lateral 2" width={115} height={200} className="hidden md:block absolute left-56 top-64 z-0" />
           <Image src="/inscricao-assets/image0.png" alt="Pessoa no Computador" width={180} height={230} className="hidden md:block absolute right-2 bottom-4 z-0" />
 
           <div className="bg-white/95 rounded-2xl p-8 shadow-lg w-full max-w-md text-center z-10 relative border border-[#2279ea]/10">
@@ -57,36 +55,10 @@ export default function Cadastro() {
                 <Input placeholder="Senha" className="flex-1" aria-label="Senha" type="password" />
                 <Input placeholder="Confirme a senha" className="flex-1" aria-label="Confirme a senha" type="password" />
               </div>
-              {/* Telefone | Curso (select) */}
+              {/* Telefone | Curso */}
               <div className="flex gap-2 mb-2">
                 <Input placeholder="Telefone" className="flex-1" aria-label="Telefone" />
-                <div className="flex-1">
-                  <label htmlFor="curso" className="sr-only">Curso</label>
-                  <select
-                    id="curso"
-                    name="curso"
-                    aria-label="Curso"
-                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2279ea] focus:border-[#2279ea] text-sm shadow-sm"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>Selecione o curso</option>
-                    <option>Medicina</option>
-                    <option>Direito</option>
-                    <option>Enfermagem</option>
-                    <option>Psicologia</option>
-                    <option>Administração</option>
-                    <option>Engenharia Civil</option>
-                    <option>Odontologia</option>
-                    <option>Fisioterapia</option>
-                    <option>Arquitetura</option>
-                    <option>Educação Física</option>
-                    <option>Farmácia</option>
-                    <option>Nutrição</option>
-                    <option>Biomedicina</option>
-                    <option>Sistemas de Informação</option>
-                    <option>Outros</option>
-                  </select>
-                </div>
+                <Input placeholder="Curso" className="flex-1" aria-label="Curso" />
               </div>
               {/* Faculdade | Unidade Fametro (Opcional) */}
               <div className="flex gap-2 mb-2">
@@ -96,15 +68,15 @@ export default function Cadastro() {
               {/* Checkboxes */}
               <div className="text-left mb-4 space-y-2">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox checked={isFametro} onCheckedChange={v => setIsFametro(!!v)} id="fametro" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
+                  <Checkbox checked={isFametro} onCheckedChange={setIsFametro} id="fametro" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
                   <span>Declaro que sou estudante Fametro <span className="text-gray-400">(Opcional)</span></span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox checked={aceitaTermos} onCheckedChange={v => setAceitaTermos(!!v)} id="termos" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
+                  <Checkbox checked={aceitaTermos} onCheckedChange={setAceitaTermos} id="termos" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
                   <span>Aceita todos os termos</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox checked={aceitaNotificacoes} onCheckedChange={v => setAceitaNotificacoes(!!v)} id="notificacoes" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
+                  <Checkbox checked={aceitaNotificacoes} onCheckedChange={setAceitaNotificacoes} id="notificacoes" className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]" />
                   <span>Aceita receber notificações por email</span>
                 </label>
               </div>
@@ -122,4 +94,4 @@ export default function Cadastro() {
       </div>
     </Layout>
   )
-}
+} 

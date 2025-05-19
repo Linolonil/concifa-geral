@@ -7,8 +7,121 @@ import Image from "next/image"
 import { FileText, Download, ExternalLink, Search } from "lucide-react"
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react"
+
+    
+  const mockData = [
+    {
+      title: 'Interfaces Conversacionais Baseadas em IA: Um Estudo de Caso',
+      authors: 'Silva, J.; Oliveira, M.; Santos, A.',
+      description:
+        'Este trabalho apresenta uma análise detalhada sobre interfaces conversacionais baseadas em inteligência artificial, destacando os principais desafios e oportunidades nesta área.',
+      year: 2024,
+      type: 'Artigo Completo',
+    },
+    {
+      title: 'Ética e Viés em Sistemas de Recomendação',
+      authors: 'Silva, J.; Oliveira, M.; Santos, A.',
+      description:
+        'Este trabalho apresenta uma análise detalhada sobre questões éticas e viés em sistemas de recomendação, destacando os principais desafios e oportunidades.',
+      year: 2023,
+      type: 'Artigo Completo',
+    },
+    {
+      title: 'Análise de Dados Forenses em Dispositivos Móveis',
+      authors: 'Costa, F.; Lima, P.',
+      description:
+        'Discussão sobre técnicas modernas de análise forense em smartphones e tablets.',
+      year: 2023,
+      type: 'Artigo Incompleto',
+    },
+    {
+      title: 'Reconhecimento Facial e Privacidade',
+      authors: 'Mendes, G.; Rocha, C.',
+      description:
+        'Estudo sobre o impacto do reconhecimento facial na privacidade dos cidadãos.',
+      year: 2022,
+      type: 'Artigo Completo',
+    },
+    {
+      title: 'Blockchain para Cadeia de Custódia Digital',
+      authors: 'Santos, A.; Oliveira, M.',
+      description:
+        'Como o blockchain pode garantir a integridade de evidências digitais.',
+      year: 2022,
+      type: 'Artigo Incompleto',
+    },
+    {
+      title: 'Machine Learning em Perícias Criminais',
+      authors: 'Silva, J.; Costa, F.',
+      description:
+        'Aplicações de aprendizado de máquina em investigações criminais.',
+      year: 2024,
+      type: 'Artigo Completo',
+    },
+    {
+      title: 'Deepfake: Desafios para a Justiça',
+      authors: 'Lima, P.; Mendes, G.',
+      description:
+        'Análise dos riscos e métodos de detecção de deepfakes em processos judiciais.',
+      year: 2023,
+      type: 'Artigo Incompleto',
+    },
+  ];
+
+const anosDisponiveis = [2024, 2023, 2022]
+const tiposDisponiveis = ['Artigo Completo', 'Artigo Incompleto']
 
 export default function Publicacoes() {
+  const [paginaAtual, setPaginaAtual] = useState(1)
+  const itensPorPagina = 5
+  const [anosSelecionados, setAnosSelecionados] = useState<number[]>([])
+  const [tiposSelecionados, setTiposSelecionados] = useState<string[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+
+  // Filtro funcional
+  const filtrar = (item: typeof mockData[0]) => {
+    const anoOk = anosSelecionados.length === 0 || anosSelecionados.includes(item.year)
+    const tipoOk = tiposSelecionados.length === 0 || tiposSelecionados.includes(item.type)
+    const termo = searchTerm.trim().toLowerCase()
+    const buscaOk =
+      termo.length === 0 ||
+      item.title.toLowerCase().includes(termo) ||
+      item.authors.toLowerCase().includes(termo) ||
+      item.description.toLowerCase().includes(termo)
+    return anoOk && tipoOk && buscaOk
+  }
+  const dadosFiltrados = mockData.filter(filtrar)
+  const totalPaginas = Math.ceil(dadosFiltrados.length / itensPorPagina)
+  const inicio = (paginaAtual - 1) * itensPorPagina
+  const fim = inicio + itensPorPagina
+  const itensPagina = dadosFiltrados.slice(inicio, fim)
+
+  // Handlers filtros
+  const handleAno = (ano: number) => {
+    setPaginaAtual(1)
+    setAnosSelecionados((prev) =>
+      prev.includes(ano) ? prev.filter((a) => a !== ano) : [...prev, ano]
+    )
+  }
+  const handleTipo = (tipo: string) => {
+    setPaginaAtual(1)
+    setTiposSelecionados((prev) =>
+      prev.includes(tipo) ? prev.filter((t) => t !== tipo) : [...prev, tipo]
+    )
+  }
+  const handlePagina = (novaPagina: number) => {
+    if (novaPagina < 1 || novaPagina > totalPaginas) return
+    setPaginaAtual(novaPagina)
+  }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPaginaAtual(1)
+    setSearchTerm(e.target.value)
+  }
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -20,245 +133,130 @@ export default function Publicacoes() {
           </div>
         </div>
       </section>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-4 text-[#2279ea]">Pesquisar Publicações</h2>
+      <div className="rounded-[2rem] shadow-md p-6 mb-8 bg-white">
+        <Input
+          placeholder="Buscar por título, autor ou palavra-chave"
+          className="text-base focus:border-[#2279ea] focus:ring-2 focus:ring-[#2279ea]/30"
+          value={searchTerm}
+          onChange={handleSearch}
+          aria-label="Buscar publicações"
+        />
+      </div>
 
-      {/* Anais do Congresso */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold mb-4 text-blue-900">Anais do Congresso</h2>
-            <p className="text-gray-600">
-              Acesse os trabalhos completos apresentados nas edições anteriores do CONCIFA
-            </p>
-          </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6">
+        {/* Filtros */}
+        <aside>
+          <h3 className="text-lg font-semibold mb-2 text-[#2279ea]">Filtros</h3>
+          <div className="space-y-1">
+            {anosDisponiveis.map((ano) => (
+              <label key={ano} className="flex items-center space-x-2 cursor-pointer">
+                <Checkbox
+                  id={`ano-${ano}`}
+                  checked={anosSelecionados.includes(ano)}
+                  onCheckedChange={() => handleAno(ano)}
+                  className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]"
+                />
+                <span className="text-gray-700">{ano}</span>
+              </label>
+            ))}
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {[
-              { year: "2024", edition: "VIII", papers: 156, image: "/images/anais-2024.jpg" },
-              { year: "2023", edition: "VII", papers: 142, image: "/images/anais-2023.jpg" },
-              { year: "2022", edition: "VI", papers: 128, image: "/images/anais-2022.jpg" },
-              { year: "2021", edition: "V", papers: 115, image: "/images/anais-2021.jpg" },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <div className="relative h-64">
-                  <Image
-                    src={item.image || "/placeholder.svg"}
-                    alt={`Anais ${item.year}`}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                    <div className="p-4 text-white">
-                      <h3 className="text-xl font-bold">Anais {item.year}</h3>
-                      <p>
-                        {item.edition} Edição • {item.papers} trabalhos
-                      </p>
-                    </div>
+          <h4 className="text-md font-semibold mt-4 mb-2 text-[#2279ea]">Tipo de Publicação</h4>
+          <div className="space-y-1">
+            {tiposDisponiveis.map((tipo) => (
+              <label key={tipo} className="flex items-center space-x-2 cursor-pointer">
+                <Checkbox
+                  id={`tipo-${tipo}`}
+                  checked={tiposSelecionados.includes(tipo)}
+                  onCheckedChange={() => handleTipo(tipo)}
+                  className="border-[#2279ea] data-[state=checked]:bg-[#2279ea] data-[state=checked]:border-[#2279ea]"
+                />
+                <span className="text-gray-700">{tipo}</span>
+              </label>
+            ))}
+          </div>
+        </aside>
+
+        {/* Resultados */}
+        <section>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold text-[#2279ea]">Resultados</h3>
+            <Select>
+              <SelectTrigger className="w-[180px] border-[#2279ea] text-[#2279ea]">
+                <SelectValue placeholder="Mais recente" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recentes">Mais recente</SelectItem>
+                <SelectItem value="antigos">Mais antigo</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-4">
+            {itensPagina.length === 0 && (
+              <div className="text-center text-gray-500 py-8">Nenhuma publicação encontrada.</div>
+            )}
+            {itensPagina.map((item, i) => (
+              <Card key={i} className="bg-white shadow-md">
+                <CardContent className="p-4">
+                  <h4 className="text-lg font-bold mb-1 text-[#2279ea]">{item.title}</h4>
+                  <p className="text-sm mb-1 text-gray-700">
+                    <span className="font-semibold">Autores:</span> {item.authors}
+                  </p>
+                  <p className="text-sm mb-2 text-gray-700">{item.description}</p>
+                  <div className="flex gap-2">
+                    <Button variant="outline" className="bg-green-100 text-green-800 border border-green-300 hover:bg-green-200">
+                      Ver online
+                    </Button>
+                    <Button variant="outline" className="bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200">
+                      PDF
+                    </Button>
                   </div>
-                </div>
-                <div className="p-4 flex justify-between">
-                  <Link href={`/publicacoes/anais-${item.year}`}>
-                    <button className="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                      <Search className="h-4 w-4 mr-1" />
-                      Visualizar
-                    </button>
-                  </Link>
-                  <Link href={`/downloads/anais-concifa-${item.year}.pdf`}>
-                    <button className="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                      <Download className="h-4 w-4 mr-1" />
-                      Download
-                    </button>
-                  </Link>
-                </div>
-              </motion.div>
+                </CardContent>
+              </Card>
             ))}
           </div>
 
-          <div className="text-center mt-8">
-            <Link href="/publicacoes/anais">
-              <button className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors">
-                Ver Todos os Anais
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Revista Científica */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="lg:w-1/2"
+          {/* Paginação */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <Button
+              variant="outline"
+              className="rounded-full px-3 border-[#2279ea] text-[#2279ea] hover:bg-[#2279ea]/10"
+              onClick={() => handlePagina(paginaAtual - 1)}
+              disabled={paginaAtual === 1}
+              aria-label="Página anterior"
+              tabIndex={0}
+            >
+              Anterior
+            </Button>
+            {Array.from({ length: totalPaginas }, (_, idx) => (
+              <Button
+                key={idx + 1}
+                variant={paginaAtual === idx + 1 ? "default" : "outline"}
+                className={`rounded-full px-3 ${paginaAtual === idx + 1 ? 'bg-[#2279ea] text-white font-bold' : 'border-[#2279ea] text-[#2279ea] hover:bg-[#2279ea]/10'}`}
+                onClick={() => handlePagina(idx + 1)}
+                aria-label={`Página ${idx + 1}`}
+                tabIndex={0}
               >
-                <h2 className="text-3xl font-bold mb-6 text-blue-900">Revista Brasileira de Ciências Forenses</h2>
-                <p className="text-gray-700 mb-4">
-                  A Revista Brasileira de Ciências Forenses (RBCF) é uma publicação científica semestral vinculada ao
-                  CONCIFA, que publica artigos originais, revisões e comunicações breves nas diversas áreas das ciências
-                  forenses.
-                </p>
-                <p className="text-gray-700 mb-4">
-                  Com classificação Qualis B2 e indexada em importantes bases de dados nacionais e internacionais, a
-                  RBCF é um importante veículo para divulgação da produção científica na área forense.
-                </p>
-                <p className="text-gray-700 mb-6">
-                  Os melhores trabalhos apresentados no CONCIFA são convidados para publicação em edições especiais da
-                  revista.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link href="https://revista.concifa.com.br">
-                    <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Acessar Revista
-                    </button>
-                  </Link>
-                  <Link href="/publicacoes/diretrizes-autores">
-                    <button className="flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Diretrizes para Autores
-                    </button>
-                  </Link>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="lg:w-1/2"
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { volume: "Vol. 8, N. 1", date: "Jan-Jun 2025", image: "/images/revista-2025-1.jpg" },
-                    { volume: "Vol. 7, N. 2", date: "Jul-Dez 2024", image: "/images/revista-2024-2.jpg" },
-                    { volume: "Vol. 7, N. 1", date: "Jan-Jun 2024", image: "/images/revista-2024-1.jpg" },
-                    { volume: "Vol. 6, N. 2", date: "Jul-Dez 2023", image: "/images/revista-2023-2.jpg" },
-                  ].map((item, index) => (
-                    <div key={index} className="relative rounded-lg overflow-hidden shadow-md group">
-                      <Image
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.volume}
-                        width={200}
-                        height={280}
-                        className="w-full h-auto"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
-                        <div className="p-3 text-white w-full">
-                          <p className="font-bold">{item.volume}</p>
-                          <p className="text-sm">{item.date}</p>
-                          <Link href={`/publicacoes/revista/${item.volume.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}>
-                            <button className="mt-2 w-full text-center text-xs bg-white text-blue-900 py-1 rounded">
-                              Ver Artigos
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Artigos em Destaque */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold mb-4 text-blue-900">Artigos em Destaque</h2>
-            <p className="text-gray-600">Conheça alguns dos trabalhos mais relevantes publicados recentemente</p>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {[
-              {
-                title: "Aplicação de Inteligência Artificial na Análise de Padrões de Manchas de Sangue",
-                authors: "Silva, A.B.; Oliveira, C.D.; Santos, E.F.",
-                journal: "Revista Brasileira de Ciências Forenses, v.7, n.2, p.45-58, 2024",
-                abstract:
-                  "Este estudo apresenta uma nova abordagem para análise de padrões de manchas de sangue utilizando algoritmos de inteligência artificial, demonstrando maior precisão na determinação de ângulos de impacto e origem das manchas.",
-              },
-              {
-                title: "Métodos Avançados de Extração de DNA em Amostras Degradadas: Um Estudo Comparativo",
-                authors: "Pereira, M.L.; Costa, R.S.; Almeida, T.V.",
-                journal: "Revista Brasileira de Ciências Forenses, v.7, n.1, p.12-27, 2024",
-                abstract:
-                  "Comparação de cinco métodos de extração de DNA em amostras forenses altamente degradadas, avaliando eficiência, qualidade do DNA obtido e aplicabilidade em casos reais.",
-              },
-              {
-                title: "Análise Forense de Dispositivos IoT: Desafios e Soluções",
-                authors: "Mendes, C.A.; Ferreira, L.M.; Rodrigues, P.S.",
-                journal: "Anais do VIII CONCIFA, p.78-92, 2024",
-                abstract:
-                  "Investigação dos desafios enfrentados na análise forense de dispositivos da Internet das Coisas (IoT) e proposição de um framework metodológico para coleta e análise de evidências digitais nesses dispositivos.",
-              },
-              {
-                title: "Entomologia Forense em Ambientes Aquáticos: Estudo de Caso no Rio Tietê",
-                authors: "Lima, J.P.; Souza, A.C.; Martins, B.R.",
-                journal: "Anais do VIII CONCIFA, p.123-135, 2024",
-                abstract:
-                  "Estudo sobre a sucessão entomológica em cadáveres submersos no Rio Tietê, identificando espécies indicadoras e estabelecendo parâmetros para estimativa do intervalo pós-morte em ambientes aquáticos poluídos.",
-              },
-            ].map((article, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card>
-                  <CardHeader>
-                    <h3 className="text-xl font-bold text-blue-900">{article.title}</h3>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-700 mb-1">
-                      <span className="font-medium">Autores:</span> {article.authors}
-                    </p>
-                    <p className="text-gray-600 text-sm mb-3">
-                      <span className="font-medium">Publicação:</span> {article.journal}
-                    </p>
-                    <p className="text-gray-700">{article.abstract}</p>
-                  </CardContent>
-                  <CardFooter>
-                    <Link href="#">
-                      <Button variant="ghost" className="flex items-center">
-                        <FileText className="h-4 w-4 mr-1" />
-                        Ler Artigo Completo
-                      </Button>
-                    </Link>
-                  </CardFooter>
-                </Card>
-              </motion.div>
+                {idx + 1}
+              </Button>
             ))}
+            <Button
+              variant="outline"
+              className="rounded-full px-3 border-[#2279ea] text-[#2279ea] hover:bg-[#2279ea]/10"
+              onClick={() => handlePagina(paginaAtual + 1)}
+              disabled={paginaAtual === totalPaginas || totalPaginas === 0}
+              aria-label="Próxima página"
+              tabIndex={0}
+            >
+              Próxima
+            </Button>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+    </div>
     </Layout>
   )
 }

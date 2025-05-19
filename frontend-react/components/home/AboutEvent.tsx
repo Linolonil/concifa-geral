@@ -20,7 +20,7 @@ export default function AboutEvent() {
           >
             <h2 className="text-3xl font-bold mb-6 text-blue-900">Sobre o CONCIFA</h2>
             <p className="text-gray-700 mb-4">
-              O Congresso Nacional de Ciências Forenses e Afins (CONCIFA) é um evento científico que reúne
+              O Congresso Científico da FAMETRO é um evento científico que reúne
               profissionais, pesquisadores e estudantes interessados nas áreas de ciências forenses e campos
               relacionados.
             </p>

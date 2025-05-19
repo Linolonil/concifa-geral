@@ -3,16 +3,15 @@ import { Facebook, Instagram, Twitter, Linkedin, Mail, MapPin, Phone } from "luc
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-6">
+    <footer className="bg-gray-900 text-white pt-12 pb-6 static bottom-0 z-50">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Sobre */}
           <div>
             <h3 className="text-xl font-bold mb-4">Sobre o CONCIFA</h3>
             <p className="text-gray-300 mb-4">
-              O Congresso Nacional de Ciências Forenses e Afins (CONCIFA) é um evento científico que reúne
-              profissionais, pesquisadores e estudantes interessados nas áreas de ciências forenses e campos
-              relacionados.
+              O Congresso Científico da FAMETRO (CONCIFA) é um evento científico que reúne
+              profissionais, pesquisadores e estudantes de diversas áreas do conhecimento, promovendo a integração acadêmica e a inovação.
             </p>
             <div className="flex space-x-4 mt-4">
               <Link href="https://facebook.com" className="text-gray-300 hover:text-white transition-colors">
@@ -94,7 +93,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-400 mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} CONCIFA - Congresso Nacional de Ciências Forenses e Afins. Todos os
+              &copy; {new Date().getFullYear()} CONCIFA - Congresso Científico da FAMETRO. Todos os
               direitos reservados.
             </p>
             <div className="flex space-x-4">

@@ -17,6 +17,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Loader2, AlertCircle, CheckCircle, Facebook, Linkedin, Mail, Chrome } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/contexts/AuthContext"
+import Image from "next/image"
 
 // Definição do esquema de validação
 const loginSchema = z.object({
@@ -119,15 +120,28 @@ function LoginContent() {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          {/* Cabeçalho */}
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900">Acesso ao Sistema</h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Entre com suas credenciais para acessar sua área restrita
-            </p>
-          </div>
+      <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden py-10">
+
+      <div className="absolute inset-0 z-0 overflow-hidden">
+          <Image
+            src="/inscricao-assets/gemini-generated-image-v-4-evugv-4-evugv-4-ev0.png"
+            alt="Background"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white/80 pointer-events-none overflow-hidden" />
+        </div>
+
+        {/* Imagens decorativas */}
+        <Image src="/inscricao-assets/imagen100.png" alt="Imagem Lateral 3" width={47} height={200} className="hidden md:block absolute right-40 top-2 z-20" />
+          <Image src="/inscricao-assets/image1.png" alt="Imagem Lateral 1" width={150} height={200} className="hidden md:block absolute left-6 top-32 z-20" />
+          <Image src="/inscricao-assets/image2.png" alt="Imagem Lateral 2" width={115} height={200} className="hidden md:block absolute left-56 top-64 z-20" />
+          <Image src="/inscricao-assets/image0.png" alt="Pessoa no Computador" width={180} height={230} className="hidden md:block absolute right-2 bottom-4 z-0" />
+        {/* Card centralizado */}
+        <div className="bg-white/95 rounded-2xl p-8 shadow-lg w-full max-w-md text-center z-10 relative border border-[#2279ea]/10">
+          <h2 className="text-2xl font-bold mb-2 text-[#2279ea]">Acesso ao Sistema</h2>
+          <p className="mb-6 text-gray-700 text-base">Entre com suas credenciais</p>
 
           {registered && (
             <motion.div
@@ -135,7 +149,7 @@ function LoginContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Alert className="bg-green-50 border-green-200">
+              <Alert className="bg-green-50 border-green-200 mb-4">
                 <CheckCircle className="h-4 w-4 text-green-600" />
                 <AlertTitle className="text-green-800">Inscrição realizada com sucesso!</AlertTitle>
                 <AlertDescription className="text-green-700">
@@ -145,118 +159,112 @@ function LoginContent() {
             </motion.div>
           )}
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white p-8 rounded-lg shadow-sm"
-          >
-            {/* Formulário de Email/Senha */}
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="seu.email@exemplo.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 text-left">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700">Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="seu.email@exemplo.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="senha"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Senha</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="********" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="senha"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700">Senha</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="********" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <div className="flex items-center justify-between">
-                  <div className="text-sm">
-                    <Link href="/recuperar-senha" className="text-blue-600 hover:underline">
-                      Esqueceu sua senha?
-                    </Link>
-                  </div>
-                </div>
-
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Autenticando...
-                    </>
-                  ) : (
-                    <>
-                      <Mail className="mr-2 h-4 w-4" />
-                      Entrar com Email
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Form>
-
-            <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Ou entre com</span>
-                </div>
+              <div className="flex items-center justify-end mb-2">
+                <Link href="/recuperar-senha" className="text-[#2279ea] hover:underline text-sm font-medium">
+                  Esqueceu sua senha?
+                </Link>
               </div>
 
-              <div className="mt-6 space-y-3">
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
-                  onClick={() => handleSocialLogin("google")}
-                  disabled={isSubmitting}
-                >
-                  <Chrome className="h-5 w-5 text-[#DB4437]" />
-                  <span>Entrar com Google</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
-                  onClick={() => handleSocialLogin("facebook")}
-                  disabled={isSubmitting}
-                >
-                  <Facebook className="h-5 w-5 text-[#1877F2]" />
-                  <span>Entrar com Facebook</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
-                  onClick={() => handleSocialLogin("linkedin")}
-                  disabled={isSubmitting}
-                >
-                  <Linkedin className="h-5 w-5 text-[#0A66C2]" />
-                  <span>Entrar com LinkedIn</span>
-                </Button>
+              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-md text-lg shadow-sm" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Autenticando...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Entrar
+                  </>
+                )}
+              </Button>
+            </form>
+          </Form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Ou entre com</span>
               </div>
             </div>
-          </motion.div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Ainda não possui uma conta?{" "}
-              <Link href="/inscricao" className="text-blue-600 hover:underline">
-                Inscreva-se
-              </Link>
-            </p>
+            <div className="mt-6 space-y-3">
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
+                onClick={() => handleSocialLogin("google")}
+                disabled={isSubmitting}
+              >
+                <Chrome className="h-5 w-5 text-[#DB4437]" />
+                <span>Entrar com Google</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
+                onClick={() => handleSocialLogin("facebook")}
+                disabled={isSubmitting}
+              >
+                <Facebook className="h-5 w-5 text-[#1877F2]" />
+                <span>Entrar com Facebook</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2 hover:bg-gray-50 border-gray-200"
+                onClick={() => handleSocialLogin("linkedin")}
+                disabled={isSubmitting}
+              >
+                <Linkedin className="h-5 w-5 text-[#0A66C2]" />
+                <span>Entrar com LinkedIn</span>
+              </Button>
+            </div>
           </div>
+        </div>
 
+        {/* Link para inscrição */}
+        <div className="flex flex-col items-center gap-2 mt-4">
+          <p className="text-sm text-gray-600">
+            Ainda não possui uma conta?{' '}
+            <Link href="/inscricao" className="text-[#2279ea] hover:underline font-medium" tabIndex={0} aria-label="Inscreva-se">
+              Inscreva-se
+            </Link>
+          </p>
+        </div>
+
+        {/* Alerta de usuários de teste */}
+        <div className="mt-4 w-full max-w-md">
           <Alert className="bg-gray-50">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Usuários de teste</AlertTitle>
